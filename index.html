@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pramod Gyawali Resume</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pramod Gyawali</h1>
+      <p class="title">Aspiring Network Engineer | Building Knowledge in Network Security & Reliability</p>
+      <p><a href="https://wa.me/9779866155528" target="_blank" rel="noopener noreferrer" >9866155528</a> | ✉️ <a href="mailto:gyawalipramod0202@gmail.com">gyawalipramod0202@gmail.com</a> | 🔗 <a href="https://www.linkedin.com/in/pramodgyawali/" target="_blank" rel="noopener noreferrer" >linkedin.com/in/pramodgyawali</a></p>
+      <p>📍 Bhairahawa, Rupandehi</p>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p>A Computer Science student with a strong foundation in networking and cybersecurity. Currently expanding expertise through Cisco networking and cybersecurity courses. Passionate about securing digital infrastructures and solving complex problems related to network security. Eager to apply theoretical knowledge in practical environments. Looking for opportunities to contribute to further develop technical skills.</p>
+    </section>
+    
+    <section>
+      <h2>Experience</h2>
+      <p><strong>Technical Support </strong><br>
+        <li><a href="https://www.vianet.com.np/" target="_blank" rel="noopener noreferrer" >Vianet Communication Ltd</a> Jawalakhel, Lalitpur</li>
+    
+               <p> 2025/06/18 - Present</p>
+
+      
+    </section>
+
+    <section>
+      <h2>Courses / Certifications</h2>
+      <ul>
+        <li><a href="https://www.credly.com/badges/ecb28f2a-bad7-4840-ba27-3278f59da47a/public_url" target="_blank" rel="noopener noreferrer" >Cisco - CCNA - Introduction to Networks</a></li>
+        <li><a href="https://www.credly.com/badges/772bf688-974f-4d85-889d-26502c658607/public_url" target="_blank" rel="noopener noreferrer" >Cisco - CyberOps Associate</a></li>
+        <li><a href="https://www.credly.com/badges/a1ea29b9-4de9-4b1e-8d1a-a026bd1ee928/linked_in_profile" target="_blank" rel="noopener noreferrer">Fortinet - FortiGate Operator</a></li>
+        <li><a href="https://www.credly.com/badges/d1bb950a-2946-401d-a9cb-044566cdf550/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Introduction to Cybersecurity</a></li>
+        <li><a href="https://www.credly.com/badges/5e8c38b0-8c74-4d6c-92ce-b3d376c0447b/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Network Support and Security</a></li>
+        <li><a href="https://www.credly.com/badges/a197a80c-a969-43e3-889b-1b8bc8643dc3/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Networking Basics</a></li>
+        <li><a href="https://www.credly.com/badges/d31cb942-0a65-42b9-8190-8f090ad7e42d/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Network Technician Career Path</a></li>
+        <li><a href="https://www.credly.com/badges/a029e0e0-37a7-4721-90fd-391447dc3b9a/linked_in_profile" target="_blank" rel="noopener noreferrer" >Cisco - Network Addressing and Basic Troubleshooting</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <p><strong>Bachelor of Science in CSIT</strong><br>
+      Institute of Science and Technology (IOST), Tribhuvan University<br>
+      02/2023 - 03/2027</p>
+
+      <p><strong>High School, Computer Science</strong><br>
+      Tilottama College<br>
+      07/2021 - 05/2023</p>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <li>Subnetting</li>
+      <li>MS Office </li>
+      <li>Linux Basic</li>
+      <li>Troubleshooting Network incident</li>
+
+
+    </section>
+
+    <section>
+      <h2>Languages</h2>
+      <p>English (Advanced), Nepali (Native)</p>
+    </section>
+  </div>
+  <footer>
+    <audio id="audioPlayer" controls>
+        <source src="music/Alex LeMirage - SOLANA (Official Audio) (320).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <br>
+    <p id="instructionText" class="instructions">Thanks for visitng :)</p>
+    <button id="playButton" class="play-button">🎵 Play Music 🎵</button>
+</footer>
+
+<style>
+  footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 10px;
+      box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+  }
+  .play-button {
+      background-color: #bf4545; /* Green */
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+  }
+  .play-button:hover {
+      background-color: #5ca045; /* Darker green */
+      transform: scale(1.05);
+  }
+  .instructions {
+      font-size: 18px;
+      margin: 20px 0;
+      color: #333;
+  }
+</style>
+
+<script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playButton = document.getElementById('playButton');
+    const instructionText = document.getElementById('instructionText');
+
+    // Add click event listener to the play button
+    playButton.addEventListener('click', () => {
+        audioPlayer.play(); // Play the audio
+        playButton.style.display = 'none'; // Hide the play button after clicking
+        instructionText.style.display = 'none'; // Hide the instruction text after clicking
+    });
+</script>
+</body>
+</html>
