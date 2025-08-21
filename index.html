@@ -1,132 +1,322 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pramod Gyawali Resume</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pramod Gyawali – Interactive CV</title>
+  <meta name="description" content="Interactive resume/CV of Pramod Gyawali – Aspiring Network Engineer & L1 Technical Support at Vianet." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: #0f172a;
+      --muted: #a3b1c6;
+      --text: #e6eefc;
+      --brand: #4f86ff;
+      --brand-2: #00f5d4;
+      --accent: #8b5cf6;
+      --ring: #2b3a55;
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100%; }
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--text);
+      background: radial-gradient(1200px 700px at 10% -10%, #12213f 0%, transparent 60%),
+                  radial-gradient(800px 500px at 110% 0%, #1a2a4b 0%, transparent 60%),
+                  var(--bg);
+      overflow-x:hidden;
+    }
+    /* Animated network canvas */
+    #bg-canvas{ position:fixed; inset:0; z-index:-1; filter:contrast(110%) saturate(105%); }
+
+    /* Layout */
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:saturate(140%) blur(8px);
+      background:linear-gradient(180deg, rgba(11,18,32,.8), rgba(11,18,32,.55) 60%, transparent);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .container{ max-width:1100px; margin:0 auto; padding:18px 22px; }
+    .row{ display:flex; flex-wrap:wrap; gap:18px; }
+    .left{ flex:1 1 300px; }
+    .right{ flex:2 1 540px; }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#0e1a30; border:1px solid #1f2b45; color:#c9d7f1;
+    }
+    .stack{ display:flex; flex-wrap:wrap; gap:10px; }
+
+    h1{ font-size: clamp(30px, 4vw, 46px); margin:8px 0 4px; letter-spacing:.2px; }
+    .subtitle{ color:#c5d3ee; font-weight:600; letter-spacing:.3px; }
+
+    nav{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    nav a{ color:#cfe0ff; text-decoration:none; border:1px solid #213054; padding:8px 12px; border-radius:12px; transition:200ms ease; }
+    nav a:hover{ background:#142347; }
+
+    section{ margin:26px 0; }
+    .card{
+      background: linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.7));
+      border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:18px 18px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .card h2{ margin:0 0 10px; font-size:20px; letter-spacing:.3px; }
+    .muted{ color:var(--muted); }
+
+    .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:14px; }
+
+    .tag{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#0f203f; border:1px solid #24365d; font-size:13px; color:#cfe0ff; }
+    .tag .dot{ width:8px; height:8px; border-radius:50%; background:var(--brand); box-shadow:0 0 8px var(--brand); }
+
+    /* Timeline */
+    .timeline{ position:relative; padding-left:26px; }
+    .timeline:before{ content:""; position:absolute; left:10px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--brand), var(--accent)); opacity:.5; }
+    .t-item{ position:relative; margin:14px 0; }
+    .t-item:before{ content:""; position:absolute; left:-18px; top:6px; width:10px; height:10px; border-radius:50%; background:var(--brand-2); box-shadow:0 0 10px var(--brand-2); }
+    .t-title{ font-weight:700; }
+    .t-meta{ color:#a9b8d0; font-size:14px; }
+    .t-list{ margin:8px 0 0 0; padding-left:18px; }
+
+    /* Skill bars */
+    .skill{ display:grid; grid-template-columns:140px 1fr; align-items:center; gap:12px; }
+    .bar{ position:relative; height:8px; border-radius:999px; background:#0c1c36; border:1px solid #203356; overflow:hidden; }
+    .bar > span{ display:block; height:100%; background:linear-gradient(90deg, var(--brand), var(--accent)); width:var(--w,70%); }
+
+    /* Footer actions */
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid #263552; color:#deebff; background:#0f1b33; text-decoration:none; cursor:pointer; transition:200ms ease; }
+    .btn:hover{ transform:translateY(-1px); background:#152447; }
+
+    /* Print */
+    @media print{
+      #bg-canvas, .actions, nav{ display:none !important; }
+      body{ background:white; color:black; }
+      .card{ background:white; border:1px solid #ddd; box-shadow:none; }
+    }
+
+    /* Small */
+    @media (max-width:800px){
+      .row{ flex-direction:column; }
+      .skill{ grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Pramod Gyawali</h1>
-      <p class="title">Aspiring Network Engineer | Building Knowledge in Network Security & Reliability</p>
-      <p><a href="https://wa.me/9779866155528" target="_blank" rel="noopener noreferrer" >9866155528</a> | ✉️ <a href="mailto:gyawalipramod0202@gmail.com">gyawalipramod0202@gmail.com</a> | 🔗 <a href="https://www.linkedin.com/in/pramodgyawali/" target="_blank" rel="noopener noreferrer" >linkedin.com/in/pramodgyawali</a></p>
-      <p>📍 Bhairahawa, Rupandehi</p>
-    </header>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-    <section>
+  <header>
+    <div class="container">
+      <div class="row" style="align-items:flex-end">
+        <div class="left">
+          <h1>Pramod Gyawali</h1>
+          <div class="subtitle">Certified in Cybersecurity (CC) | Aspiring Network Engineer | Building Knowledge in Network Security & Reliability</div>
+          <div class="stack" style="margin-top:12px">
+            <span class="pill">📞 9866155528</span>
+            <a class="pill" href="mailto:gyawalipramod0202@gmail.com" aria-label="Email">📧 gyawalipramod0202@gmail.com</a>
+            <a class="pill" href="https://www.linkedin.com/in/pramodgyawali/" target="_blank" rel="noreferrer">🔗 linkedin.com/in/pramodgyawali</a>
+            <span class="pill">📍 Bhairahawa, Rupandehi</span>
+          </div>
+        </div>
+        <div class="right actions">
+        </div>
+      </div>
+      <!-- Navigation links removed -->
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="summary" class="card">
       <h2>Summary</h2>
-      <p>A Computer Science student with a strong foundation in networking and cybersecurity. Currently expanding expertise through Cisco networking and cybersecurity courses. Passionate about securing digital infrastructures and solving complex problems related to network security. Eager to apply theoretical knowledge in practical environments. Looking for opportunities to contribute to further develop technical skills.</p>
-    </section>
-    
-    <section>
-      <h2>Experience</h2>
-      <p><strong>Technical Support </strong><br>
-        <li><a href="https://www.vianet.com.np/" target="_blank" rel="noopener noreferrer" >Vianet Communication Ltd</a> Jawalakhel, Lalitpur</li>
-    
-               <p> 2025/06/18 - Present</p>
-
-      
+      <p class="muted">Computer Science student with a strong foundation in networking and cybersecurity. Hands-on experience as <b>L1 Technical Support at Vianet Communication Ltd.</b>, resolving client connectivity issues, configuring ONUs via OLT (Telnet), and troubleshooting PPPoE sessions and RADIUS logs. Working knowledge of ISP infrastructure: Core Routers, Border Routers, POPs, BNG,RADIUS, NAS, ACS, MPLS routing, and city-wide P2P links. Currently pursuing <b>Cisco CCNA</b> and eager to apply skills in practical environments.</p>
     </section>
 
-    <section>
-      <h2>Courses / Certifications</h2>
-      <ul>
-        <li><a href="https://www.credly.com/badges/ecb28f2a-bad7-4840-ba27-3278f59da47a/public_url" target="_blank" rel="noopener noreferrer" >Cisco - CCNA - Introduction to Networks</a></li>
-        <li><a href="https://www.credly.com/badges/772bf688-974f-4d85-889d-26502c658607/public_url" target="_blank" rel="noopener noreferrer" >Cisco - CyberOps Associate</a></li>
-        <li><a href="https://www.credly.com/badges/a1ea29b9-4de9-4b1e-8d1a-a026bd1ee928/linked_in_profile" target="_blank" rel="noopener noreferrer">Fortinet - FortiGate Operator</a></li>
-        <li><a href="https://www.credly.com/badges/d1bb950a-2946-401d-a9cb-044566cdf550/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Introduction to Cybersecurity</a></li>
-        <li><a href="https://www.credly.com/badges/5e8c38b0-8c74-4d6c-92ce-b3d376c0447b/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Network Support and Security</a></li>
-        <li><a href="https://www.credly.com/badges/a197a80c-a969-43e3-889b-1b8bc8643dc3/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Networking Basics</a></li>
-        <li><a href="https://www.credly.com/badges/d31cb942-0a65-42b9-8190-8f090ad7e42d/public_url" target="_blank" rel="noopener noreferrer" >Cisco - Network Technician Career Path</a></li>
-        <li><a href="https://www.credly.com/badges/a029e0e0-37a7-4721-90fd-391447dc3b9a/linked_in_profile" target="_blank" rel="noopener noreferrer" >Cisco - Network Addressing and Basic Troubleshooting</a></li>
-      </ul>
+    <div class="row">
+      <div class="right">
+        <section id="experience" class="card">
+          <h2>Experience</h2>
+          <div class="timeline">
+            <article class="t-item">
+              <div class="t-title">L1 Technical Support – Vianet Communication Ltd.</div>
+              <div class="t-meta">Internship • 2025</div>
+              <ul class="t-list">
+                <li>Resolved client issues: ONU offline, frequent disconnections, internet outages.</li>
+                <li>Troubleshot PPPoE sessions, analyzed <b>RADIUS</b> logs, and verified OLT power levels.</li>
+                <li>Configured and registered ONUs via <b>OLT (Telnet)</b>; performed ONU registration for non-GEPON links.</li>
+                <li>Gained exposure to ISP backbone operations: <b>BNG, Core Routers, POPs, MPLS, P2P Links</b>.</li>
+                <li>Collaborated with NetOps; documented procedures and best practices to improve first-call resolution.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="education" class="card">
+          <h2>Education</h2>
+          <div class="timeline">
+            <article class="t-item">
+              <div class="t-title">B.Sc. in Computer Science and Information Technology (BSc CSIT)</div>
+              <div class="t-meta">Institute of Science and Technology (IOST), Tribhuvan University, Butwal • 2023 – 2027</div>
+            </article>
+            <article class="t-item">
+              <div class="t-title">High School, Computer Science</div>
+              <div class="t-meta">Tilottama College • 2021 – 2023</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="certs" class="card">
+          <h2>Certifications & Courses</h2>
+          <ul>
+            <li><b>ISC2 Certified in Cybersecurity (CC)</b> – 2025</li>
+            <li><b>Cisco – CCNA</b> (In Progress)</li>
+            <li>Cisco – CyberOps Associate</li>
+            <li>Cisco – Introduction to Networks</li>
+            <li>Cisco – Networking Basics</li>
+            <li>Cisco – Network Support & Security</li>
+            <li>Cisco – Network Technician Career Path</li>
+            <li>Cisco – Network Addressing & Basic Troubleshooting</li>
+            <li>Cisco – Introduction to Cybersecurity</li>
+            <li>Palo Alto – Cybersecurity Fundamentals</li>
+            <li>Fortinet – FortiGate Operator</li>
+          </ul>
+        </section>
+
+        <section id="languages" class="card">
+          <h2>Languages</h2>
+          <p><b>Nepali:</b> Native</p>
+          <p><b>English:</b> Fluent</p>
+          <p><b>Hindi:</b> Fluent</p>
+        </section>
+      </div>
+
+      <aside class="left">
+        <section id="skills" class="card">
+          <h2>Skills</h2>
+          <div class="grid">
+            <div class="tag"><span class="dot"></span> LAN/WAN, VLANs</div>
+            <div class="tag"><span class="dot"></span> Subnetting, TCP/IP</div>
+            <div class="tag"><span class="dot"></span> DNS, DHCP</div>
+            <div class="tag"><span class="dot"></span> Routing & Switching</div>
+            <div class="tag"><span class="dot"></span> OLT Config & ONU Reg</div>
+            <div class="tag"><span class="dot"></span> PPPoE, RADIUS</div>
+            <div class="tag"><span class="dot"></span> Windows, Linux</div>
+            <div class="tag"><span class="dot"></span> Packet Tracer, Wireshark</div>
+            <div class="tag"><span class="dot"></span> Firewall Basics, ACLs</div>
+            <div class="tag"><span class="dot"></span> Threat Detection</div>
+            <div class="tag"><span class="dot"></span> Cyber Threats</div>
+            <div class="tag"><span class="dot"></span> MS Office, Remote Desktop</div>
+            <div class="tag"><span class="dot"></span> Communication, Teamwork</div>
+          </div>
+          <div style="margin-top:12px">
+            <div class="skill"><div class="muted">Networking</div><div class="bar" style="--w:88%"><span></span></div></div>
+            <div class="skill"><div class="muted">Troubleshooting</div><div class="bar" style="--w:86%"><span></span></div></div>
+            <div class="skill"><div class="muted">Security Basics</div><div class="bar" style="--w:70%"><span></span></div></div>
+            <div class="skill"><div class="muted">Linux</div><div class="bar" style="--w:60%"><span></span></div></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section id="contact" class="card">
+      <h2>Contact</h2>
+      <p class="muted">Open to internships and entry-level roles in Network Engineering / NetOps / NOC.</p>
+      <div class="actions">
+        <a class="btn" href="mailto:gyawalipramod0202@gmail.com">📩 Email Me</a>
+        <button class="btn" id="btnCopy">📋 Copy Email</button>
+        <a class="btn" href="https://www.linkedin.com/in/pramodgyawali/" target="_blank" rel="noreferrer">🔗 LinkedIn</a>
+        
+      </div>
     </section>
+  </main>
 
-    <section>
-      <h2>Education</h2>
-      <p><strong>Bachelor of Science in CSIT</strong><br>
-      Institute of Science and Technology (IOST), Tribhuvan University<br>
-      02/2023 - 03/2027</p>
+  <script>
+    // ====== Interactive Network Background (vanilla JS canvas) ======
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
 
-      <p><strong>High School, Computer Science</strong><br>
-      Tilottama College<br>
-      07/2021 - 05/2023</p>
-    </section>
+    function resize(){
+      W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight;
+      build();
+    }
 
-    <section>
-      <h2>Skills</h2>
-      <li>Subnetting</li>
-      <li>MS Office </li>
-      <li>Linux Basic</li>
-      <li>Troubleshooting Network incident</li>
+    function build(){
+      const count = Math.min(120, Math.floor((W*H)/14000));
+      particles = Array.from({length: count}, () => ({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        vx: (Math.random()*2-1)*0.35,
+        vy: (Math.random()*2-1)*0.35,
+        r: Math.random()*1.7+0.6
+      }));
+    }
+
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      // glow background mesh
+      ctx.fillStyle = 'rgba(13, 24, 48, .6)';
+      ctx.fillRect(0,0,W,H);
+
+      // draw links
+      for(let i=0;i<particles.length;i++){
+        const p = particles[i];
+        for(let j=i+1;j<particles.length;j++){
+          const q = particles[j];
+          const dx=p.x-q.x, dy=p.y-q.y, d= Math.hypot(dx,dy);
+          if(d<120){
+            const alpha = 1 - d/120;
+            const hue = 215 + (i%60);
+            ctx.strokeStyle = `hsla(${hue}, 95%, 70%, ${alpha*0.35})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        }
+      }
+      // draw nodes
+      for(const p of particles){
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1; if(p.y<0||p.y>H) p.vy*=-1;
+        const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+        g.addColorStop(0,'rgba(79,134,255,.95)');
+        g.addColorStop(1,'rgba(79,134,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(step);
+    }
+
+    window.addEventListener('resize', resize, {passive:true});
+    resize(); step();
+
+    // ====== Actions ======
 
 
-    </section>
-
-    <section>
-      <h2>Languages</h2>
-      <p>English (Advanced), Nepali (Native)</p>
-    </section>
-  </div>
-  <footer>
-    <audio id="audioPlayer" controls>
-        <source src="music/Alex LeMirage - SOLANA (Official Audio) (320).mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <br>
-    <p id="instructionText" class="instructions">Thanks for visitng :)</p>
-    <button id="playButton" class="play-button">🎵 Play Music 🎵</button>
-</footer>
-
-<style>
-  footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #ffffff;
-      padding: 10px;
-      box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-  }
-  .play-button {
-      background-color: #bf4545; /* Green */
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-  }
-  .play-button:hover {
-      background-color: #5ca045; /* Darker green */
-      transform: scale(1.05);
-  }
-  .instructions {
-      font-size: 18px;
-      margin: 20px 0;
-      color: #333;
-  }
-</style>
-
-<script>
-    const audioPlayer = document.getElementById('audioPlayer');
-    const playButton = document.getElementById('playButton');
-    const instructionText = document.getElementById('instructionText');
-
-    // Add click event listener to the play button
-    playButton.addEventListener('click', () => {
-        audioPlayer.play(); // Play the audio
-        playButton.style.display = 'none'; // Hide the play button after clicking
-        instructionText.style.display = 'none'; // Hide the instruction text after clicking
+    // Theme toggle (simple light/dark swap)
+    const themeBtn = document.getElementById('btnTheme');
+    let dark = true;
+    themeBtn.addEventListener('click', () => {
+      dark = !dark;
+      document.documentElement.style.setProperty('--bg', dark ? '#0b1220' : '#f6f7fb');
+      document.documentElement.style.setProperty('--card', dark ? '#0f172a' : '#ffffff');
+      document.documentElement.style.setProperty('--text', dark ? '#e6eefc' : '#111827');
+      document.documentElement.style.setProperty('--muted', dark ? '#5f7495' : '#4b5563');
     });
-</script>
+
+    // Copy email
+    document.getElementById('btnCopy').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText('gyawalipramod0202@gmail.com');
+        const b = document.getElementById('btnCopy');
+        const old = b.textContent; b.textContent = '✅ Copied!';
+        setTimeout(()=> b.textContent = old, 1200);
+      }catch(e){ alert('Copy failed, email: gyawalipramod0202@gmail.com'); }
+    });
+
+    // Smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href').slice(1); const el=document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+  </script>
 </body>
 </html>
